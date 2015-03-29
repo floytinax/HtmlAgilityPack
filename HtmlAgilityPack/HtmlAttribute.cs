@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics;
 
 #endregion
+// ReSharper disable InconsistentNaming
 
 namespace HtmlAgilityPack
 {
@@ -69,7 +70,7 @@ namespace HtmlAgilityPack
             {
                 if (_name == null)
                 {
-                    _name = _ownerdocument._text.Substring(_namestartindex, _namelength);
+                    _name = _ownerdocument.Text.Substring(_namestartindex, _namelength);
                 }
                 return _name.ToLower();
             }
@@ -82,8 +83,7 @@ namespace HtmlAgilityPack
                 _name = value;
                 if (_ownernode != null)
                 {
-                    _ownernode._innerchanged = true;
-                    _ownernode._outerchanged = true;
+                    _ownernode.SetChanged();
                 }
             }
         }
@@ -138,7 +138,7 @@ namespace HtmlAgilityPack
             {
                 if (_value == null)
                 {
-                    _value = _ownerdocument._text.Substring(_valuestartindex, _valuelength);
+                    _value = _ownerdocument.Text.Substring(_valuestartindex, _valuelength);
                 }
                 return _value;
             }
@@ -147,8 +147,7 @@ namespace HtmlAgilityPack
                 _value = value;
                 if (_ownernode != null)
                 {
-                    _ownernode._innerchanged = true;
-                    _ownernode._outerchanged = true;
+                    _ownernode.SetChanged();
                 }
             }
         }

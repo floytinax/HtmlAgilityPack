@@ -40,7 +40,8 @@ namespace HtmlAgilityPack
                 {
                     throw new ArgumentNullException("name");
                 }
-                return Hashitems.ContainsKey(name.ToLower()) ? Hashitems[name.ToLower()] : null;
+                HtmlAttribute value;
+                return Hashitems.TryGetValue(name.ToLower(), out value) ? value : null;
             }
             set { Append(value); }
         }
@@ -155,8 +156,7 @@ namespace HtmlAgilityPack
             item._ownernode = _ownernode;
             items.Insert(index, item);
 
-            _ownernode._innerchanged = true;
-            _ownernode._outerchanged = true;
+            _ownernode.SetChanged();
         }
 
         /// <summary>
@@ -179,8 +179,7 @@ namespace HtmlAgilityPack
             Hashitems.Remove(att.Name);
             items.RemoveAt(index);
 
-            _ownernode._innerchanged = true;
-            _ownernode._outerchanged = true;
+            _ownernode.SetChanged();
         }
 
         #endregion
@@ -213,8 +212,7 @@ namespace HtmlAgilityPack
             newAttribute._ownernode = _ownernode;
             items.Add(newAttribute);
 
-            _ownernode._innerchanged = true;
-            _ownernode._outerchanged = true;
+            _ownernode.SetChanged();
             return newAttribute;
         }
 
@@ -315,8 +313,7 @@ namespace HtmlAgilityPack
             Hashitems.Clear();
             items.Clear();
 
-            _ownernode._innerchanged = true;
-            _ownernode._outerchanged = true;
+            _ownernode.SetChanged();
         }
 
         #endregion
