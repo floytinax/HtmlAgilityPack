@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAPLight", "..\HAPLight\HAP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HAPLight.5.0", "..\HAPLight\HAPLight.5.0.csproj", "{583C56E1-C46A-43AD-BB37-DE2209432126}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlAgilityPack.fx.4.5", "..\HtmlAgilityPack\HtmlAgilityPack.fx.4.5.csproj", "{CB28FB12-E5F2-4CB9-8BA6-43528865DD93}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,16 @@ Global
 		{583C56E1-C46A-43AD-BB37-DE2209432126}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{583C56E1-C46A-43AD-BB37-DE2209432126}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{583C56E1-C46A-43AD-BB37-DE2209432126}.Release|x86.ActiveCfg = Release|Any CPU
+		{CB28FB12-E5F2-4CB9-8BA6-43528865DD93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB28FB12-E5F2-4CB9-8BA6-43528865DD93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB28FB12-E5F2-4CB9-8BA6-43528865DD93}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CB28FB12-E5F2-4CB9-8BA6-43528865DD93}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{CB28FB12-E5F2-4CB9-8BA6-43528865DD93}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CB28FB12-E5F2-4CB9-8BA6-43528865DD93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB28FB12-E5F2-4CB9-8BA6-43528865DD93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB28FB12-E5F2-4CB9-8BA6-43528865DD93}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CB28FB12-E5F2-4CB9-8BA6-43528865DD93}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{CB28FB12-E5F2-4CB9-8BA6-43528865DD93}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

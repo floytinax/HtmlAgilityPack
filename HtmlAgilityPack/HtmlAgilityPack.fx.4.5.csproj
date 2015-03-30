@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1028002A-BBE2-4FF2-94B7-A8368A8F6887}</ProjectGuid>
+    <ProjectGuid>{CB28FB12-E5F2-4CB9-8BA6-43528865DD93}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>HtmlAgilityPack</RootNamespace>
@@ -42,27 +42,30 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
+    <BaseIntermediateOutputPath>obj\fx.4.5</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)\$(Configuration)\</IntermediateOutputPath>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\fx.4.0\Debug\</OutputPath>
+    <OutputPath>bin\fx.4.5\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\fx.4.0\Debug\HtmlAgilityPack.XML</DocumentationFile>
+    <DocumentationFile>bin\fx.4.5\Debug\HtmlAgilityPack.xml</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)\$(Configuration)\</IntermediateOutputPath>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\fx.4.0\Release\</OutputPath>
+    <OutputPath>bin\fx.4.5\Release\</OutputPath>
     <DefineConstants>FX40</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\fx.4.0\Release\HtmlAgilityPack.XML</DocumentationFile>
+    <DocumentationFile>bin\fx.4.5\Release\HtmlAgilityPack.xml</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -136,7 +139,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>del /f /q $(SolutionDir)..\Nuget\lib\Net45\*
-copy "$(TargetDir)Html*.*" $(SolutionDir)..\Nuget\lib\Net45\</PostBuildEvent>
+    <PostBuildEvent>if not exist "$(SolutionDir)..\Nuget\lib\Net45\" (
+    echo "Creating NuGet output directory:" "$(SolutionDir)..\Nuget\lib\Net45\"
+    mkdir "$(SolutionDir)..\Nuget\lib\Net45\" 
+)
+if not errorlevel 1 (
+  del /f /q $(SolutionDir)..\Nuget\lib\Net45\*
+  copy "$(TargetDir)Html*.*" $(SolutionDir)..\Nuget\lib\Net45\
+)
+	</PostBuildEvent>
   </PropertyGroup>
 </Project>
