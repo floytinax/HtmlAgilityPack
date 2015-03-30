@@ -41,27 +41,28 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <IntermediateOutputPath>obj\fx.2.0\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\fx.2.0\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\HtmlAgilityPack.xml</DocumentationFile>
+    <DocumentationFile>bin\fx.2.0\Debug\HtmlAgilityPack.xml</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\fx.2.0\Release\</OutputPath>
     <DefineConstants>
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\HtmlAgilityPack.xml</DocumentationFile>
+    <DocumentationFile>bin\fx.2.0\Release\HtmlAgilityPack.xml</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
@@ -134,7 +135,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>del /f /q $(SolutionDir)..\Nuget\lib\Net20\*
-copy "$(TargetDir)Html*.*" $(SolutionDir)..\Nuget\lib\Net20\</PostBuildEvent>
+    <PostBuildEvent>if not exist "$(SolutionDir)..\Nuget\lib\Net20\" (
+    echo "Creating NuGet output directory:" "$(SolutionDir)..\Nuget\lib\Net20\"
+    mkdir "$(SolutionDir)..\Nuget\lib\Net20\" 
+)
+if not errorlevel 1 (
+  del /f /q $(SolutionDir)..\Nuget\lib\Net20\*
+  copy "$(TargetDir)Html*.*" $(SolutionDir)..\Nuget\lib\Net20\
+)
+	</PostBuildEvent>
   </PropertyGroup>
 </Project>

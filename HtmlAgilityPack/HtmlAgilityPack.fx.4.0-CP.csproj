@@ -42,26 +42,27 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <IntermediateOutputPath>obj\fx.4.0-cp\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\fx.4.0\Debug\</OutputPath>
+    <OutputPath>bin\fx.4.0-cp\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\fx.4.0\Debug\HtmlAgilityPack.XML</DocumentationFile>
+    <DocumentationFile>bin\fx.4.0-cp\Debug\HtmlAgilityPack.XML</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\fx.4.0\Release\</OutputPath>
+    <OutputPath>bin\fx.4.0-cp\Release\</OutputPath>
     <DefineConstants>FX40</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\fx.4.0\Release\HtmlAgilityPack.xml</DocumentationFile>
+    <DocumentationFile>bin\fx.4.0-cp\Release\HtmlAgilityPack.XML</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
@@ -134,7 +135,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>del /f /q $(SolutionDir)..\Nuget\lib\Net40-client\*
-copy "$(TargetDir)Html*.*" $(SolutionDir)..\Nuget\lib\Net40-client\</PostBuildEvent>
+    <PostBuildEvent>if not exist "$(SolutionDir)..\Nuget\lib\Net40-client\" (
+    echo "Creating NuGet output directory:" "$(SolutionDir)..\Nuget\lib\Net40-client\"
+    mkdir "$(SolutionDir)..\Nuget\lib\Net40-client\" 
+)
+if not errorlevel 1 (
+  del /f /q $(SolutionDir)..\Nuget\lib\Net40-client\*
+  copy "$(TargetDir)Html*.*" $(SolutionDir)..\Nuget\lib\Net40-client\
+)
+	</PostBuildEvent>
   </PropertyGroup>
 </Project>

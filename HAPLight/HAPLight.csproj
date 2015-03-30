@@ -28,24 +28,24 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>Bin\Debug\</OutputPath>
+    <OutputPath>Bin\sl4.0\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>Bin\Debug\HtmlAgilityPack.XML</DocumentationFile>
+    <DocumentationFile>Bin\sl4.0\Debug\HtmlAgilityPack.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>Bin\Release</OutputPath>
+    <OutputPath>Bin\sl4.0\Release</OutputPath>
     <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>Bin\Release\HtmlAgilityPack.XML</DocumentationFile>
+    <DocumentationFile>Bin\sl4.0\Release\HtmlAgilityPack.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
@@ -161,8 +161,16 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>del /f /q "$(SolutionDir)..\Nuget\lib\sl4\*"
-copy "$(TargetDir)Html*.*" "$(SolutionDir)..\Nuget\lib\sl4\"</PostBuildEvent>
+    <PostBuildEvent>
+if not exist "$(SolutionDir)..\Nuget\lib\sl4\" (
+    echo "Creating NuGet output directory:" "$(SolutionDir)..\Nuget\lib\sl4\"
+    mkdir "$(SolutionDir)..\Nuget\lib\sl4\" 
+)
+if not errorlevel 1 (
+  del /f /q $(SolutionDir)..\Nuget\lib\sl4\*
+  copy "$(TargetDir)Html*.*" $(SolutionDir)..\Nuget\lib\sl4\
+)
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -42,6 +42,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
+    <IntermediateOutputPath>obj\fx.4.0\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,7 +52,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\fx.4.0\Debug\HtmlAgilityPack.XML</DocumentationFile>
+    <DocumentationFile>bin\fx.4.0\Debug\HtmlAgilityPack.xml</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -134,7 +135,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>del /f /q $(SolutionDir)..\Nuget\lib\Net40\*
-copy "$(TargetDir)Html*.*" $(SolutionDir)..\Nuget\lib\Net40\</PostBuildEvent>
+    <PostBuildEvent>if not exist "$(SolutionDir)..\Nuget\lib\Net40\" (
+    echo "Creating NuGet output directory:" "$(SolutionDir)..\Nuget\lib\Net40\"
+    mkdir "$(SolutionDir)..\Nuget\lib\Net40\" 
+)
+if not errorlevel 1 (
+  del /f /q $(SolutionDir)..\Nuget\lib\Net40\*
+  copy "$(TargetDir)Html*.*" $(SolutionDir)..\Nuget\lib\Net40\
+)
+	</PostBuildEvent>
   </PropertyGroup>
 </Project>

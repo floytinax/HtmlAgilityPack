@@ -39,13 +39,13 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>Bin\Release</OutputPath>
+    <OutputPath>Bin\sl5.0\Release</OutputPath>
     <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>Bin\Release\HtmlAgilityPack.XML</DocumentationFile>
+    <DocumentationFile>Bin\sl5.0\Release\HtmlAgilityPack.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
@@ -161,8 +161,16 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>del /f /q "$(SolutionDir)..\Nuget\lib\sl5\*"
-copy "$(TargetDir)Html*.*" "$(SolutionDir)..\Nuget\lib\sl5\"</PostBuildEvent>
+    <PostBuildEvent>
+if not exist "$(SolutionDir)..\Nuget\lib\sl5\" (
+    echo "Creating NuGet output directory:" "$(SolutionDir)..\Nuget\lib\sl5\"
+    mkdir "$(SolutionDir)..\Nuget\lib\sl5\" 
+)
+if not errorlevel 1 (
+  del /f /q $(SolutionDir)..\Nuget\lib\sl5\*
+  copy "$(TargetDir)Html*.*" $(SolutionDir)..\Nuget\lib\sl5\
+)
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
