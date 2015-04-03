@@ -106,9 +106,22 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>del /f /q "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wp8+MonoAndroid+MonoTouch\*"
-copy "$(TargetDir)Html*.*" "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wp8+MonoAndroid+MonoTouch\"
-del /f /q "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\*"
-copy "$(TargetDir)Html*.*" "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\"</PostBuildEvent>
+    <PostBuildEvent>
+if not exist "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wp8+MonoAndroid+MonoTouch\" (
+    echo "Creating NuGet output directory:" "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wp8+MonoAndroid+MonoTouch\"
+    mkdir "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wp8+MonoAndroid+MonoTouch\" 
+)
+if not errorlevel 1 (
+   del /f /q "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wp8+MonoAndroid+MonoTouch\*"
+   copy "$(TargetDir)Html*.*" "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wp8+MonoAndroid+MonoTouch\"
+)
+if not exist "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\" (
+    echo "Creating NuGet output directory:" "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\"
+    mkdir "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\" 
+)
+if not errorlevel 1 (
+    del /f /q "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\*"
+    copy "$(TargetDir)Html*.*" "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\"
+)</PostBuildEvent>
   </PropertyGroup>
 </Project>
