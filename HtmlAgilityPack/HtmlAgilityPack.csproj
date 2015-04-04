@@ -42,6 +42,10 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <BaseIntermediateOutputPath>obj\fx.2.0</BaseIntermediateOutputPath>
+    <NuGetOutputPath>$(SolutionDir)\Nuget</NuGetOutputPath>
+    <NuGetOutputPathNet20>$(NuGetOutputPath)\lib\Net20\</NuGetOutputPathNet20>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)\$(Configuration)\</IntermediateOutputPath>
@@ -112,6 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="HtmlAgilityPack.snk" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -137,14 +142,22 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if not exist "$(SolutionDir)..\Nuget\lib\Net20\" (
-    echo "Creating NuGet output directory:" "$(SolutionDir)..\Nuget\lib\Net20\"
-    mkdir "$(SolutionDir)..\Nuget\lib\Net20\" 
+    <PostBuildEvent>
+if not exist "$(NuGetOutputPathNet20)" (
+    echo "Creating NuGet output directory:" "$(NuGetOutputPathNet20)"
+    mkdir "$(NuGetOutputPathNet20)" 
 )
 if not errorlevel 1 (
-  del /f /q $(SolutionDir)..\Nuget\lib\Net20\*
-  copy "$(TargetDir)Html*.*" $(SolutionDir)..\Nuget\lib\Net20\
+  del /f /q $(NuGetOutputPathNet20)*
+  copy "$(TargetDir)Html*.*" $(NuGetOutputPathNet20)
 )
 	</PostBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
 </Project>

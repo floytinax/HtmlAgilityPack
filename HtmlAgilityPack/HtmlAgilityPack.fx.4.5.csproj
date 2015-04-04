@@ -43,6 +43,8 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
     <BaseIntermediateOutputPath>obj\fx.4.5</BaseIntermediateOutputPath>
+    <NuGetOutputPath>$(SolutionDir)\Nuget</NuGetOutputPath>
+    <NuGetOutputPathNet45>$(NuGetOutputPath)\lib\Net45\</NuGetOutputPathNet45>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)\$(Configuration)\</IntermediateOutputPath>
@@ -139,13 +141,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if not exist "$(SolutionDir)..\Nuget\lib\Net45\" (
-    echo "Creating NuGet output directory:" "$(SolutionDir)..\Nuget\lib\Net45\"
-    mkdir "$(SolutionDir)..\Nuget\lib\Net45\" 
+    <PostBuildEvent>
+if not exist "$(NuGetOutputPathNet45)" (
+    echo "Creating NuGet output directory:" "$(NuGetOutputPathNet45)"
+    mkdir "$(NuGetOutputPathNet45)" 
 )
 if not errorlevel 1 (
-  del /f /q $(SolutionDir)..\Nuget\lib\Net45\*
-  copy "$(TargetDir)Html*.*" $(SolutionDir)..\Nuget\lib\Net45\
+  del /f /q $(NuGetOutputPathNet45)*
+  copy "$(TargetDir)Html*.*" $(NuGetOutputPathNet45)
 )
 	</PostBuildEvent>
   </PropertyGroup>

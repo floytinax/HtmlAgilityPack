@@ -12,6 +12,9 @@
     <AssemblyName>HtmlAgilityPack</AssemblyName>
     <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <NuGetOutputPath>$(SolutionDir)\Nuget</NuGetOutputPath>
+    <NuGetOutputPathWP8>$(NuGetOutputPath)\lib\portable-net45+netcore45+wp8+MonoAndroid+MonoTouch\</NuGetOutputPathWP8>
+    <NuGetOutputPathWP81>$(NuGetOutputPath)\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\</NuGetOutputPathWP81>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,9 +36,6 @@
     <DefineConstants>METRO</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\HtmlAgilityPack.Metro\HtmlWeb.cs">
-      <Link>HtmlWeb.cs</Link>
-    </Compile>
     <Compile Include="..\HtmlAgilityPack\crc32.cs">
       <Link>crc32.cs</Link>
     </Compile>
@@ -102,26 +102,27 @@
     <Compile Include="..\HtmlAgilityPack\Utilities.cs">
       <Link>Utilities.cs</Link>
     </Compile>
+    <Compile Include="HtmlWeb.cs" />
     <Compile Include="InvalidProgramException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-if not exist "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wp8+MonoAndroid+MonoTouch\" (
-    echo "Creating NuGet output directory:" "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wp8+MonoAndroid+MonoTouch\"
-    mkdir "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wp8+MonoAndroid+MonoTouch\" 
+if not exist "$(NuGetOutputPathWP8)" (
+    echo "Creating NuGet output directory:" "$(NuGetOutputPathWP8)"
+    mkdir "$(NuGetOutputPathWP8)" 
 )
 if not errorlevel 1 (
-   del /f /q "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wp8+MonoAndroid+MonoTouch\*"
-   copy "$(TargetDir)Html*.*" "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wp8+MonoAndroid+MonoTouch\"
+   del /f /q "$(NuGetOutputPathWP8)*"
+   copy "$(TargetDir)Html*.*" "$(NuGetOutputPathWP8)"
 )
-if not exist "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\" (
-    echo "Creating NuGet output directory:" "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\"
-    mkdir "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\" 
+if not exist "$(NuGetOutputPathWP81)" (
+    echo "Creating NuGet output directory:" "$(NuGetOutputPathWP81)"
+    mkdir "$(NuGetOutputPathWP81)" 
 )
 if not errorlevel 1 (
-    del /f /q "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\*"
-    copy "$(TargetDir)Html*.*" "$(SolutionDir)..\Nuget\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid+MonoTouch\"
+    del /f /q "$(NuGetOutputPathWP81)*"
+    copy "$(TargetDir)Html*.*" "$(NuGetOutputPathWP81)"
 )</PostBuildEvent>
   </PropertyGroup>
 </Project>

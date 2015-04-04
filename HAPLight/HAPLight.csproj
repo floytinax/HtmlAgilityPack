@@ -18,6 +18,8 @@
     <ValidateXaml>true</ValidateXaml>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
     <BaseIntermediateOutputPath>obj\sl4</BaseIntermediateOutputPath>
+    <NuGetOutputPath>$(SolutionDir)\Nuget</NuGetOutputPath>
+    <NuGetOutputPathSL4>$(NuGetOutputPath)\lib\sl4\</NuGetOutputPathSL4>
   </PropertyGroup>
   <!-- This property group is only here to support building this project using the 
        MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
@@ -165,13 +167,13 @@
   </ProjectExtensions>
   <PropertyGroup>
     <PostBuildEvent>
-if not exist "$(SolutionDir)..\Nuget\lib\sl4\" (
-    echo "Creating NuGet output directory:" "$(SolutionDir)..\Nuget\lib\sl4\"
-    mkdir "$(SolutionDir)..\Nuget\lib\sl4\" 
+if not exist "$(NuGetOutputPathSL4)" (
+    echo "Creating NuGet output directory:" "$(NuGetOutputPathSL4)"
+    mkdir "$(NuGetOutputPathSL4)" 
 )
 if not errorlevel 1 (
-  del /f /q $(SolutionDir)..\Nuget\lib\sl4\*
-  copy "$(TargetDir)Html*.*" $(SolutionDir)..\Nuget\lib\sl4\
+  del /f /q $(NuGetOutputPathSL4)*
+  copy "$(TargetDir)Html*.*" $(NuGetOutputPathSL4)
 )
 </PostBuildEvent>
   </PropertyGroup>

@@ -1,0 +1,1 @@
+".nuget/nuget.exe" pack Nuget\htmlagilitypack.nuspec -BasePath Nuget\ -OutputDirector ./ -Exclude .svn
