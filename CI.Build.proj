@@ -38,7 +38,16 @@ Build parameters:
 	</Target>
 
 	<Target Name="Build">
-		<CallTarget Targets="Compile" />
+		<CallTarget Targets="Compile;RunTests" />
+	</Target>
+
+	<Target Name="RunTests">
+		<CreateItem Include="$(MSBuildProjectDirectory)\**\bin\**\*.Tests.dll">
+			<Output TaskParameter="Include" ItemName="TestAssembly" />
+		</CreateItem>
+		<Exec ContinueOnError="False" Command="$(MSBuildProjectDirectory)\packages\NUnit.Runners.2.6.4\tools\nunit-console.exe /nologo /nodots @(TestAssembly)">
+			<Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
+		</Exec>
 	</Target>
 
 
