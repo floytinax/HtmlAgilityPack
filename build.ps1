@@ -1,7 +1,7 @@
 param(
     [string]$config = "Release",
     [ValidateSet("quiet", "minimal", "normal", "detailed", "diagnostic")]
-    [string]$verbosity = "diagnostic"
+    [string]$verbosity = "minimal"
 )
 
 # Diagnostic 
