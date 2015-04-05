@@ -28,7 +28,7 @@ function Create-Folder-Safe {
     )
 
     if(-not (Test-Path $folder)) {
-        [System.IO.Directory]::CreateDirectory($folder)
+        [System.IO.Directory]::CreateDirectory($folder) | Out-Null
     }
 
 }
@@ -130,21 +130,25 @@ Function Get-MSBuild {
 
 function Build-Project {
     param(
+        [string]$rootFolder = $(throw "-rootFolder is required."),
         [string]$project = $(throw "-project is required."),
         [string]$config = $(throw "-config is required."),
         [string]$target = $(throw "-target is required.")
     )
 
+    $project = Join-Path $rootFolder $project
     $projectPath = [System.IO.Path]::GetFullPath($project)
-    $projectName = [System.IO.Path]::GetFileName($projectPath) -ireplace ".csproj$", ""
+    $projectName = [System.IO.Path]::GetFileName($projectPath)
 
     if(-not (Test-Path $projectPath)) {
         Die("Could not find csproj: $projectPath")
     }
 
-    Create-Folder-Safe -folder $platformOutputFolder
+    $logFolder = Join-Path $rootFolder "log"
 
-    Write-Diagnostic "Build: $projectName ($platform / $config - $targetFramework)"
+    Create-Folder-Safe -folder $logFolder
+
+    Write-Diagnostic "Build: $projectName"
 
     & "$(Get-Content env:windir)\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe" `
         $projectPath `
@@ -153,11 +157,11 @@ function Build-Project {
         /m `
         /v:$verbosity `
         /fl `
-        /flp:LogFile=$platformOutputFolder\msbuild.log `
+        /flp:LogFile=$logFolder\msbuild.log `
         /nr:false
 
     if($LASTEXITCODE -ne 0) {
-        Die("Build failed: $projectName ($Config - $targetFramework)")
+        Die("Build failed: $projectName")
     }
 }
 
@@ -168,7 +172,6 @@ $outputFolder = Join-Path $rootFolder "bin"
 $testsFolder = Join-Path $outputFolder "tests"
 
 $config = $config.substring(0, 1).toupper() + $config.substring(1)
-$version = $config.trim()
 
 # Myget
 $currentVersion = if(Test-Path env:PackageVersion) { Get-Content env:PackageVersion } else { $packageVersion }
@@ -177,10 +180,11 @@ if($currentVersion -eq "") {
     #Die("Package version cannot be empty")
 }
 
-$project = "$rootFolder\CI.Build.proj"
+$project = "CI.Build.proj"
 $target = "Build"
 
 Build-Project `
+    -rootFolder $rootFolder `
     -project $project `
     -target $target `
     -config $config `
