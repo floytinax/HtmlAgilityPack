@@ -1,0 +1,41 @@
+<!--
+***********************************************************************************************
+Floytinax HtmlAgilityPack Build script
+
+This file defines the steps in the  build process for Floytinax HtmlAgilityPack
+
+Copyright (C) Floytinax. All rights reserved.
+***********************************************************************************************
+
+Build parameters:
+				
+-->
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<MSBuildCommunityTasksPath>$(MSBuildProjectDirectory)\.build</MSBuildCommunityTasksPath>
+	</PropertyGroup>
+
+	<Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.targets"/>
+
+	<PropertyGroup Condition=" '$(BuildConfiguration)' == '' ">
+		<BuildConfiguration>Release</BuildConfiguration>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectFiles Include="$(MSBuildProjectDirectory)\HtmlAgilityPack.Master.sln">
+			<Properties>Configuration=$(BuildConfiguration)</Properties>
+		</ProjectFiles>
+	</ItemGroup>
+
+	<Target Name="Compile" DependsOnTargets="Clean;Version">
+		<MSBuild Projects="@(ProjectFiles)" />
+	</Target>
+
+	<Target Name="Build">
+		<CallTarget Targets="Compile" />
+	</Target>
+
+
+</Project>
